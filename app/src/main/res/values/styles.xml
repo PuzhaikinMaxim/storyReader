@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MainBackgroundDark">
+        <item name="background">@color/dark_gray_main_background</item>
+    </style>
+
+    <style name="MainTextDark">
+        <!--<item name="textColor">@color/white</item>-->
+    </style>
+</resources>

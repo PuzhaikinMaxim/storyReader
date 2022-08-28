@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/storyListFragment">
+    <fragment
+        android:id="@+id/storyListFragment"
+        android:name="com.example.storyreader.presentation.fragments.StoryListFragment"
+        android:label="StoryListFragment" >
+        <action
+            android:id="@+id/action_storyListFragment_to_categoryListFragment"
+            app:destination="@id/categoryListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryListFragment"
+        android:name="com.example.storyreader.presentation.fragments.CategoryListFragment"
+        android:label="fragment_category_list"
+        tools:layout="@layout/fragment_category_list" >
+        <action
+            android:id="@+id/action_categoryListFragment_to_storyListFragment"
+            app:destination="@id/storyListFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Истории</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all_stories_title">Все истории</string>
+    <string name="categories_title">Метки</string>
+    <string name="open">" "</string>
+    <string name="close">" "</string>
+</resources>

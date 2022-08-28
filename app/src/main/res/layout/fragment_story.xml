@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_gray_main_background"
+    >
+    <TextView
+        android:id="@+id/tv_story_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/MainTextDark"
+        tools:text="Уууу бля"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="22sp"
+        android:padding="5dp"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv_story_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/MainTextDark"
+        tools:text="TextView"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_story_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>
