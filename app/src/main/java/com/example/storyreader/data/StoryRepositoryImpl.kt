@@ -21,8 +21,10 @@ class StoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getStoriesByCategory(category: Category): LiveData<List<Story>> {
-        TODO("Not yet implemented")
+    override suspend fun getStoriesByCategory(categoryId: Int): LiveData<List<Story>> {
+        return Transformations.map(storyDao.getStoriesOfCategory(categoryId)){
+            storyMapper.mapStoriesOfCategory(it)
+        }
     }
 
     override suspend fun getStory(id: Int): Story {

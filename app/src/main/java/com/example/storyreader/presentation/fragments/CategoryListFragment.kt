@@ -61,6 +61,14 @@ class CategoryListFragment: Fragment() {
                 adapter.categoryList = it
             }
         }
+        adapter.onItemClickedListener = {
+            val fragment = StoryListFragment.newInstance(it.categoryId)
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     companion object {

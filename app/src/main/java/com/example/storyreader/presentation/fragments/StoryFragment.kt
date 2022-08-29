@@ -65,9 +65,9 @@ class StoryFragment: Fragment() {
         viewModel.getStory(storyId)
         viewModel.story.observe(requireActivity()){
             if(it == null) return@observe
-            print(it)
             binding.tvStoryName.text = it.storyName
             binding.tvStoryText.text = it.storyText
+            requireActivity().title = it.storyName
         }
     }
 

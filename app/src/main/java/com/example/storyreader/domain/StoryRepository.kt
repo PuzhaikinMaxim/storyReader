@@ -8,7 +8,7 @@ interface StoryRepository {
 
     fun getStoriesList(): LiveData<List<Story>>
 
-    fun getStoriesByCategory(category: Category): LiveData<List<Story>>
+    suspend fun getStoriesByCategory(categoryId: Int): LiveData<List<Story>>
 
     suspend fun getStory(id: Int): Story
 

@@ -12,7 +12,7 @@ import com.example.storyreader.domain.models.Story
 interface StoryDao {
 
     @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
-    fun getStoriesOfCategory(categoryId: Int): LiveData<List<CategoryWithStories>>
+    fun getStoriesOfCategory(categoryId: Int): LiveData<CategoryWithStories>
 
     @Query("SELECT * FROM categories")
     fun getCategories(): LiveData<List<CategoryDbModel>>
