@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.storyreader.R
 import com.example.storyreader.databinding.ItemStoryBinding
 import com.example.storyreader.domain.models.Story
-import com.example.storyreader.presentation.viewmodels.StoryListDiffCallback
 
 class StoryListAdapter: RecyclerView.Adapter<StoryListAdapter.StoryViewHolder>() {
 

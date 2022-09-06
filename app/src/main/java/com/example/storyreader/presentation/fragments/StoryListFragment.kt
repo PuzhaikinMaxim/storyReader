@@ -68,7 +68,7 @@ class StoryListFragment: Fragment() {
             adapter.storyList = it
         }
         adapter.onLongClickListener = {
-            viewModel.addStoryInFavourite(it.copy(isFavourite = !it.isFavourite))
+            viewModel.addStoryInFavourite(it)
         }
         adapter.onItemClickedListener = {
             //val intent = StoryActivity.newIntent(requireContext(), it.storyId)

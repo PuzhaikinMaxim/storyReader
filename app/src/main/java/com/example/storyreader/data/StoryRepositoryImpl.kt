@@ -2,7 +2,6 @@ package com.example.storyreader.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.storyreader.data.localdatabase.CategoryMapper
 import com.example.storyreader.data.localdatabase.StoryDao
 import com.example.storyreader.domain.StoryRepository
 import com.example.storyreader.domain.models.Category
@@ -39,7 +38,7 @@ class StoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun markRead(id: Int) {
-
+        storyDao.setRead(id)
     }
 
     override suspend fun addInFavourite(story: Story) {
@@ -47,5 +46,11 @@ class StoryRepositoryImpl @Inject constructor(
             storyId = story.storyId,
             isFavourite = story.isFavourite
         )
+    }
+
+    override suspend fun getFavouriteStories(): LiveData<List<Story>> {
+        return Transformations.map(storyDao.getFavouriteStories()){
+            storyMapper.mapListDbModelToListEntity(it)
+        }
     }
 }

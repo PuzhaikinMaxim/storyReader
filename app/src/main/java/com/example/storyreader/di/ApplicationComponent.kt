@@ -2,6 +2,7 @@ package com.example.storyreader.di
 
 import android.app.Application
 import com.example.storyreader.presentation.fragments.CategoryListFragment
+import com.example.storyreader.presentation.fragments.FavouriteStoryListFragment
 import com.example.storyreader.presentation.fragments.StoryFragment
 import com.example.storyreader.presentation.fragments.StoryListFragment
 import dagger.BindsInstance
@@ -16,6 +17,8 @@ interface ApplicationComponent {
     fun inject(storyListFragment: StoryListFragment)
 
     fun inject(categoryListFragment: CategoryListFragment)
+
+    fun inject(favouriteStoryListFragment: FavouriteStoryListFragment)
 
     @Component.Factory
     interface ApplicationComponentFactory {

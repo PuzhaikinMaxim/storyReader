@@ -22,7 +22,7 @@ class StoryListViewModel @Inject constructor(
 
     fun addStoryInFavourite(story: Story) {
         viewModelScope.launch(Dispatchers.Default) {
-            addToFavouriteUseCase.invoke(story)
+            addToFavouriteUseCase.invoke(story.copy(isFavourite = !story.isFavourite))
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.storyreader.di
 
 import androidx.lifecycle.ViewModel
 import com.example.storyreader.presentation.viewmodels.CategoryListViewModel
+import com.example.storyreader.presentation.viewmodels.FavouriteStoryListViewModel
 import com.example.storyreader.presentation.viewmodels.StoryListViewModel
 import com.example.storyreader.presentation.viewmodels.StoryViewModel
 import dagger.Binds
@@ -25,4 +26,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(StoryViewModel::class)
     fun bindStoryViewModel(viewModel: StoryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavouriteStoryListViewModel::class)
+    fun bindFavouriteStoryViewModel(viewModel: FavouriteStoryListViewModel): ViewModel
 }

@@ -37,4 +37,7 @@ interface StoryDao {
 
     @Query("SELECT * FROM story WHERE storyId = :storyId")
     suspend fun getStory(storyId: Int): StoryDbModel
+
+    @Query("SELECT storyId, storyName, null, isFavourite, isRead FROM story WHERE isFavourite = 1")
+    fun getFavouriteStories(): LiveData<List<StoryDbModel>>
 }

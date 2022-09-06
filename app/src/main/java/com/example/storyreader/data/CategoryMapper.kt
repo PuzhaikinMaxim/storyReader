@@ -1,4 +1,4 @@
-package com.example.storyreader.data.localdatabase
+package com.example.storyreader.data
 
 import com.example.storyreader.data.localdatabase.models.CategoryDbModel
 import com.example.storyreader.domain.models.Category

@@ -1,4 +1,4 @@
-package com.example.storyreader.presentation.viewmodels
+package com.example.storyreader.presentation
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.storyreader.domain.models.Story

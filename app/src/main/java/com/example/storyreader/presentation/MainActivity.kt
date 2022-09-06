@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +17,7 @@ import com.example.storyreader.data.localdatabase.AppDatabase
 import com.example.storyreader.data.localdatabase.models.CategoryDbModel
 import com.example.storyreader.databinding.ActivityMainBinding
 import com.example.storyreader.presentation.fragments.CategoryListFragment
+import com.example.storyreader.presentation.fragments.FavouriteStoryListFragment
 import com.example.storyreader.presentation.fragments.StoryListFragment
 import com.google.android.material.navigation.NavigationView
 import java.lang.RuntimeException
@@ -76,10 +78,30 @@ class MainActivity: AppCompatActivity() {
                         .addToBackStack(null)
                         .commit()
                 }
+                R.id.favouriteStoryListFragment -> {
+                    val fragment = FavouriteStoryListFragment.newInstance()
+                    /*
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, fragment)
+                        .addToBackStack(null)
+                        .commit()
+
+                     */
+                    startFragment(fragment)
+                }
             }
             drawerLayout.closeDrawers()
             true
         }
+    }
+
+    private fun startFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
