@@ -2,15 +2,13 @@ package com.example.storyreader.data.localdatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.storyreader.data.localdatabase.models.CategoryDbModel
-import com.example.storyreader.data.localdatabase.models.CategoryWithStories
-import com.example.storyreader.data.localdatabase.models.StoryDbModel
-import com.example.storyreader.data.localdatabase.models.StoryWithCategories
+import com.example.storyreader.data.localdatabase.models.*
 import com.example.storyreader.domain.models.Story
 
 @Dao
 interface StoryDao {
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
     fun getStoriesOfCategory(categoryId: Int): LiveData<CategoryWithStories>
 
@@ -20,10 +18,9 @@ interface StoryDao {
     /*
     @Query("SELECT * FROM story")
     fun getStories(): LiveData<List<StoryDbModel>>
-
      */
 
-    @Query("SELECT storyId, storyName, null, isFavourite, isRead FROM story")
+    @Query("SELECT storyId, storyName, storyName = null, isFavourite, isRead FROM story")
     fun getStories(): LiveData<List<StoryDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -35,8 +32,8 @@ interface StoryDao {
     @Query("UPDATE story SET isRead = 1 WHERE storyId = :storyId")
     suspend fun setRead(storyId: Int)
 
-    @Query("SELECT * FROM story WHERE storyId = :storyId")
-    suspend fun getStory(storyId: Int): StoryDbModel
+    @Query("SELECT * FROM story s JOIN storyText t ON s.storyId = t.storyId WHERE s.storyId = :storyId")
+    suspend fun getStory(storyId: Int): StoryText
 
     @Query("SELECT storyId, storyName, null, isFavourite, isRead FROM story WHERE isFavourite = 1")
     fun getFavouriteStories(): LiveData<List<StoryDbModel>>

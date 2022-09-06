@@ -28,7 +28,7 @@ class StoryRepositoryImpl @Inject constructor(
 
     override suspend fun getStory(id: Int): Story {
         val storyDbModel = storyDao.getStory(id)
-        return storyMapper.mapDbModelToEntity(storyDbModel)
+        return storyMapper.mapStoryTextToEntity(storyDbModel)
     }
 
     override fun getCategoriesList(): LiveData<List<Category>> {

@@ -7,14 +7,16 @@ import androidx.room.RoomDatabase
 import com.example.storyreader.data.localdatabase.models.CategoryDbModel
 import com.example.storyreader.data.localdatabase.models.StoryCategoryCrossRef
 import com.example.storyreader.data.localdatabase.models.StoryDbModel
+import com.example.storyreader.data.localdatabase.models.StoryTextDbModel
 
 @Database(
     entities = [
         StoryDbModel::class,
         CategoryDbModel::class,
-        StoryCategoryCrossRef::class
+        StoryCategoryCrossRef::class,
+        StoryTextDbModel::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {

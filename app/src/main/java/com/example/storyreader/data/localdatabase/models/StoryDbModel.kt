@@ -11,7 +11,6 @@ import com.example.storyreader.domain.models.Category
 data class StoryDbModel(
     @PrimaryKey val storyId: Int,
     val storyName: String,
-    val storyText: String?,
     val isFavourite: Boolean = false,
     val isRead: Boolean = false
 )
