@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/storyListFragment">
+    app:startDestination="@id/story_item">
     <fragment
-        android:id="@+id/storyListFragment"
+        android:id="@+id/story_item"
         android:name="com.example.storyreader.presentation.fragments.StoryListFragment"
         android:label="StoryListFragment" >
         <action
@@ -19,6 +19,6 @@
         tools:layout="@layout/fragment_category_list" >
         <action
             android:id="@+id/action_categoryListFragment_to_storyListFragment"
-            app:destination="@id/storyListFragment" />
+            app:destination="@id/story_item" />
     </fragment>
 </navigation>

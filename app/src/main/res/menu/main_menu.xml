@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
 
-    <item
-        android:id="@+id/storyListFragment"
-        android:title="@string/all_stories_title" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/story_item"
+            android:title="@string/all_stories_title" />
 
-    <item
-        android:id="@+id/categoryListFragment"
-        android:title="@string/categories_title" />
+        <item
+            android:id="@+id/categoryListFragment"
+            android:title="@string/categories_title" />
 
-    <item
-        android:id="@+id/favouriteStoryListFragment"
-        android:title="Избранное"
-        />
+        <item
+            android:id="@+id/favouriteStoryListFragment"
+            android:title="Избранное"
+            />
+    </group>
 </menu>

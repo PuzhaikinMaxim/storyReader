@@ -4,14 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.storyreader.R
 import com.example.storyreader.data.localdatabase.AppDatabase
 import com.example.storyreader.data.localdatabase.models.CategoryDbModel
@@ -44,10 +37,12 @@ class MainActivity: AppCompatActivity() {
         val res = dao.getStoriesOfCategory(1)
         println(res.value)
         setContentView(binding.root)
+        binding.navView.setCheckedItem(R.id.story_item)
         setupSlideMenu()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    /*
     private fun setupSlideMenu() {
         val drawerLayout = binding.drawerLayout
         toggle = ActionBarDrawerToggle(this,
@@ -89,6 +84,43 @@ class MainActivity: AppCompatActivity() {
 
                      */
                     startFragment(fragment)
+                }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
+    }
+
+     */
+
+    private fun setupSlideMenu() {
+        setSupportActionBar(binding.toolbar)
+        val navView = binding.navView
+        val drawerLayout = binding.drawerLayout
+        toggle = ActionBarDrawerToggle(this,
+            drawerLayout,
+            binding.toolbar,
+            R.string.open,
+            R.string.close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.story_item -> {
+                    val fragment = StoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.story_item)
+                }
+                R.id.categoryListFragment -> {
+                    val fragment = CategoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.categoryListFragment)
+                }
+                R.id.favouriteStoryListFragment -> {
+                    val fragment = FavouriteStoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.favouriteStoryListFragment)
                 }
             }
             drawerLayout.closeDrawers()
