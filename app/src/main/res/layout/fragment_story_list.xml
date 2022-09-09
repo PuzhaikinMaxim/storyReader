@@ -6,11 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/dark_gray_main_background"
     >
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_story_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_story"
-        />
+        android:orientation="vertical"
+        >
+        <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_story_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_story"
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

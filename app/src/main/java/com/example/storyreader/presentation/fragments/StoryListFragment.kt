@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.databinding.FragmentStoryListBinding
-import com.example.storyreader.presentation.StoryActivity
-import com.example.storyreader.presentation.StoryApplication
-import com.example.storyreader.presentation.StoryListAdapter
-import com.example.storyreader.presentation.ViewModelFactory
+import com.example.storyreader.presentation.*
 import com.example.storyreader.presentation.viewmodels.StoryListViewModel
 import java.lang.IllegalStateException
 import javax.inject.Inject
@@ -28,6 +25,8 @@ class StoryListFragment: Fragment() {
         (requireActivity().application as StoryApplication).component
     }
 
+    private lateinit var actionBarActivity: ActionBarActivity
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -37,6 +36,9 @@ class StoryListFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         component.inject(this)
+        if(context is ActionBarActivity){
+            actionBarActivity = context
+        }
         super.onAttach(context)
     }
 
@@ -55,7 +57,6 @@ class StoryListFragment: Fragment() {
         parseParams()
         launchRightMode()
         setupStoryList()
-        requireActivity().setTitle(R.string.all_stories_title)
     }
 
     private fun setupStoryList() {
@@ -111,10 +112,19 @@ class StoryListFragment: Fragment() {
     }
 
     private fun launchAllStoriesMode() {
+        requireActivity().setTitle(R.string.all_stories_title)
+        actionBarActivity.setupActionBar(
+            binding.toolbar.root,
+            ActionBarActivity.STORY_LIST_FRAGMENT_CODE
+        )
         viewModel.setStoryList()
     }
 
     private fun launchCategoryStoryMode() {
+        actionBarActivity.setupActionBar(
+            binding.toolbar.root,
+            ActionBarActivity.CATEGORY_LIST_FRAGMENT_CODE
+        )
         viewModel.setStoryListByCategory(categoryId)
     }
 

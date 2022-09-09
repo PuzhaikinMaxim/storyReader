@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.databinding.FragmentCategoryListBinding
 import com.example.storyreader.databinding.FragmentStoryBinding
+import com.example.storyreader.presentation.ActionBarActivity
 import com.example.storyreader.presentation.CategoryListAdapter
 import com.example.storyreader.presentation.StoryApplication
 import com.example.storyreader.presentation.ViewModelFactory
@@ -27,13 +28,17 @@ class CategoryListFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    private lateinit var actionBarActivity: ActionBarActivity
+
     private var _binding: FragmentCategoryListBinding? = null
     private val binding: FragmentCategoryListBinding
         get() = _binding ?: throw RuntimeException("Binding is not set")
 
     override fun onAttach(context: Context) {
         component.inject(this)
-
+        if(context is ActionBarActivity){
+            actionBarActivity = context
+        }
         super.onAttach(context)
     }
 
@@ -50,6 +55,10 @@ class CategoryListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().setTitle(R.string.categories_title)
         viewModel = viewModelFactory.create(CategoryListViewModel::class.java)
+        actionBarActivity.setupActionBar(
+            binding.toolbar.root,
+            ActionBarActivity.CATEGORY_LIST_FRAGMENT_CODE
+        )
         setupCategoryList()
     }
 

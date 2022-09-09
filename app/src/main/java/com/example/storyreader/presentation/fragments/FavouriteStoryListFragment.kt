@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.databinding.FragmentStoryListBinding
-import com.example.storyreader.presentation.StoryActivity
-import com.example.storyreader.presentation.StoryApplication
-import com.example.storyreader.presentation.StoryListAdapter
-import com.example.storyreader.presentation.ViewModelFactory
+import com.example.storyreader.presentation.*
 import com.example.storyreader.presentation.viewmodels.FavouriteStoryListViewModel
 import java.lang.RuntimeException
 import javax.inject.Inject
@@ -27,12 +24,17 @@ class FavouriteStoryListFragment: Fragment(){
         (requireActivity().application as StoryApplication).component
     }
 
+    private lateinit var actionBarActivity: ActionBarActivity
+
     private var _binding: FragmentStoryListBinding? = null
     private val binding: FragmentStoryListBinding
         get() = _binding ?: throw RuntimeException("Binding is null")
 
     override fun onAttach(context: Context) {
         component.inject(this)
+        if(context is ActionBarActivity) {
+            actionBarActivity = context
+        }
         requireActivity().setTitle(R.string.favourite_title)
         super.onAttach(context)
     }
@@ -49,6 +51,10 @@ class FavouriteStoryListFragment: Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        actionBarActivity.setupActionBar(
+            binding.toolbar.root,
+            ActionBarActivity.FAVOURITE_LIST_FRAGMENT_CODE
+        )
         setupStoryList()
     }
 

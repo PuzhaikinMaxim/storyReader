@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.data.localdatabase.AppDatabase
@@ -12,10 +13,8 @@ import com.example.storyreader.databinding.ActivityMainBinding
 import com.example.storyreader.presentation.fragments.CategoryListFragment
 import com.example.storyreader.presentation.fragments.FavouriteStoryListFragment
 import com.example.storyreader.presentation.fragments.StoryListFragment
-import com.google.android.material.navigation.NavigationView
-import java.lang.RuntimeException
 
-class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity(), ActionBarActivity {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -38,7 +37,8 @@ class MainActivity: AppCompatActivity() {
         println(res.value)
         setContentView(binding.root)
         binding.navView.setCheckedItem(R.id.story_item)
-        setupSlideMenu()
+        setupNavMenu()
+        //setupSlideMenu()
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -93,13 +93,56 @@ class MainActivity: AppCompatActivity() {
 
      */
 
+    /*
+    fun setupActionBar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        val drawerLayout = binding.drawerLayout
+        toggle = ActionBarDrawerToggle(this,
+            drawerLayout,
+            toolbar,
+            R.string.open,
+            R.string.close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+     */
+
+    private fun setupNavMenu() {
+        val navView = binding.navView
+        val drawerLayout = binding.drawerLayout
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.story_item -> {
+                    val fragment = StoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.story_item)
+                }
+                R.id.categoryListFragment -> {
+                    val fragment = CategoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.categoryListFragment)
+                }
+                R.id.favouriteStoryListFragment -> {
+                    val fragment = FavouriteStoryListFragment.newInstance()
+                    startFragment(fragment)
+                    navView.setCheckedItem(R.id.favouriteStoryListFragment)
+                }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
+    }
+
+    /*
     private fun setupSlideMenu() {
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar.root)
         val navView = binding.navView
         val drawerLayout = binding.drawerLayout
         toggle = ActionBarDrawerToggle(this,
             drawerLayout,
-            binding.toolbar,
+            binding.toolbar.root,
             R.string.open,
             R.string.close
         )
@@ -128,6 +171,8 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+     */
+
     private fun startFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
@@ -141,5 +186,36 @@ class MainActivity: AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun setupActionBar(toolbar: Toolbar, fragmentCode: Int) {
+        setSupportActionBar(toolbar)
+        val drawerLayout = binding.drawerLayout
+        toggle = ActionBarDrawerToggle(this,
+            drawerLayout,
+            toolbar,
+            R.string.open,
+            R.string.close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        with(binding) {
+            when(fragmentCode){
+                ActionBarActivity.STORY_LIST_FRAGMENT_CODE -> {
+                    navView.setCheckedItem(R.id.story_item)
+                }
+                ActionBarActivity.CATEGORY_LIST_FRAGMENT_CODE -> {
+                    navView.setCheckedItem(R.id.categoryListFragment)
+                }
+                ActionBarActivity.FAVOURITE_LIST_FRAGMENT_CODE -> {
+                    navView.setCheckedItem(R.id.favouriteStoryListFragment)
+                }
+            }
+        }
+
+    }
+
+    override fun setupActionBarWithoutMenu(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
     }
 }
