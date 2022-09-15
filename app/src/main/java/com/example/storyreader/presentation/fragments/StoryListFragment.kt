@@ -2,9 +2,9 @@ package com.example.storyreader.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.databinding.FragmentStoryListBinding
@@ -49,6 +49,9 @@ class StoryListFragment: Fragment() {
     ): View {
         _binding = FragmentStoryListBinding.inflate(inflater, container, false)
         viewModel = viewModelFactory.create(StoryListViewModel::class.java)
+        binding.toolbar.root.setOnMenuItemClickListener {
+            true
+        }
         return binding.root
     }
 
@@ -57,6 +60,7 @@ class StoryListFragment: Fragment() {
         parseParams()
         launchRightMode()
         setupStoryList()
+        setupStorySearch()
     }
 
     private fun setupStoryList() {
@@ -66,7 +70,7 @@ class StoryListFragment: Fragment() {
         }
         viewModel.storyList.observe(requireActivity()){
             println(it)
-            adapter.storyList = it
+            adapter.storyList = viewModel.filterStoryList()
         }
         adapter.onLongClickListener = {
             viewModel.addStoryInFavourite(it)
@@ -80,6 +84,9 @@ class StoryListFragment: Fragment() {
                 .replace(R.id.main_container, fragment)
                 .addToBackStack(null)
                 .commit()
+        }
+        viewModel.searchFilterText.observe(requireActivity()){
+            adapter.storyList = viewModel.filterStoryList()
         }
     }
 
@@ -112,11 +119,12 @@ class StoryListFragment: Fragment() {
     }
 
     private fun launchAllStoriesMode() {
-        requireActivity().setTitle(R.string.all_stories_title)
+        binding.toolbar.root.setTitle(R.string.all_stories_title)
         actionBarActivity.setupActionBar(
             binding.toolbar.root,
             ActionBarActivity.STORY_LIST_FRAGMENT_CODE
         )
+        //
         viewModel.setStoryList()
     }
 
@@ -125,7 +133,25 @@ class StoryListFragment: Fragment() {
             binding.toolbar.root,
             ActionBarActivity.CATEGORY_LIST_FRAGMENT_CODE
         )
+        binding.toolbar.root.inflateMenu(R.menu.toolbar_story_list_menu)
         viewModel.setStoryListByCategory(categoryId)
+    }
+
+    private fun setupStorySearch() {
+        val searchItem = binding.toolbar.root.menu.getItem(0)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchItem.collapseActionView()
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchFilterText.value = newText
+                return false
+            }
+
+        })
     }
 
     companion object {

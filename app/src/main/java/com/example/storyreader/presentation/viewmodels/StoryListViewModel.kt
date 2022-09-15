@@ -1,8 +1,6 @@
 package com.example.storyreader.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.storyreader.domain.StoryRepository
 import com.example.storyreader.domain.models.Story
 import com.example.storyreader.domain.usecases.AddToFavouriteUseCase
@@ -19,6 +17,9 @@ class StoryListViewModel @Inject constructor(
 ): ViewModel() {
 
     lateinit var storyList: LiveData<List<Story>>
+    val searchFilterText = MutableLiveData<String>().apply {
+        value = ""
+    }
 
     fun addStoryInFavourite(story: Story) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -28,6 +29,17 @@ class StoryListViewModel @Inject constructor(
 
     fun setStoryList() {
         storyList = getStoryListUseCase.invoke()
+    }
+
+    fun filterStoryList(): List<Story> {
+        if(searchFilterText.value != "") {
+            return storyList.value?.filter {
+                it.storyName.lowercase().contains(searchFilterText.value!!.lowercase())
+            } ?: listOf<Story>()
+        }
+        else {
+            return storyList.value ?: listOf<Story>()
+        }
     }
 
     fun setStoryListByCategory(categoryId: Int) {

@@ -189,7 +189,7 @@ class MainActivity: AppCompatActivity(), ActionBarActivity {
     }
 
     override fun setupActionBar(toolbar: Toolbar, fragmentCode: Int) {
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
         val drawerLayout = binding.drawerLayout
         toggle = ActionBarDrawerToggle(this,
             drawerLayout,
