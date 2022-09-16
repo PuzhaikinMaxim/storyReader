@@ -52,7 +52,7 @@ class FavouriteStoryListFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         actionBarActivity.setupActionBar(
-            binding.toolbar.root,
+            binding.toolbar.tbMain,
             ActionBarActivity.FAVOURITE_LIST_FRAGMENT_CODE
         )
         setupStoryList()

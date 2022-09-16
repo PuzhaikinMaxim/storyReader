@@ -8,6 +8,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_tab_color">#6CD3ED</color>
     <color name="dark_gray_main_background">#3E4147</color>
     <color name="dark_gray_card_background">#242A35</color>
+    <color name="dark_toolbar_color">#141F3E</color>
 </resources>

@@ -7,4 +7,7 @@
     <string name="favourite_title">Избранное</string>
     <string name="open">" "</string>
     <string name="close">" "</string>
+    <string name="all_stories">ВСЕ</string>
+    <string name="read_stories">ПРОЧИТАННЫЕ</string>
+    <string name="not_read_stories">НЕПРОЧИТАННЫЕ</string>
 </resources>

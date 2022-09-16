@@ -4,12 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import com.example.storyreader.R
 import com.example.storyreader.databinding.FragmentStoryListBinding
 import com.example.storyreader.presentation.*
 import com.example.storyreader.presentation.viewmodels.StoryListViewModel
+import com.google.android.material.tabs.TabLayout
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
@@ -34,6 +34,8 @@ class StoryListFragment: Fragment() {
     private val binding: FragmentStoryListBinding
         get() = _binding ?: throw RuntimeException("Binding is not set")
 
+    private lateinit var adapter: StoryListAdapter
+
     override fun onAttach(context: Context) {
         component.inject(this)
         if(context is ActionBarActivity){
@@ -49,7 +51,7 @@ class StoryListFragment: Fragment() {
     ): View {
         _binding = FragmentStoryListBinding.inflate(inflater, container, false)
         viewModel = viewModelFactory.create(StoryListViewModel::class.java)
-        binding.toolbar.root.setOnMenuItemClickListener {
+        binding.toolbar.tbMain.setOnMenuItemClickListener {
             true
         }
         return binding.root
@@ -61,10 +63,12 @@ class StoryListFragment: Fragment() {
         launchRightMode()
         setupStoryList()
         setupStorySearch()
+        setupSortToggle()
+        setupSortTabs()
     }
 
     private fun setupStoryList() {
-        val adapter = StoryListAdapter()
+        adapter = StoryListAdapter()
         with(binding){
             rvStoryList.adapter = adapter
         }
@@ -119,9 +123,9 @@ class StoryListFragment: Fragment() {
     }
 
     private fun launchAllStoriesMode() {
-        binding.toolbar.root.setTitle(R.string.all_stories_title)
+        binding.toolbar.tbMain.setTitle(R.string.all_stories_title)
         actionBarActivity.setupActionBar(
-            binding.toolbar.root,
+            binding.toolbar.tbMain,
             ActionBarActivity.STORY_LIST_FRAGMENT_CODE
         )
         //
@@ -130,15 +134,15 @@ class StoryListFragment: Fragment() {
 
     private fun launchCategoryStoryMode() {
         actionBarActivity.setupActionBar(
-            binding.toolbar.root,
+            binding.toolbar.tbMain,
             ActionBarActivity.CATEGORY_LIST_FRAGMENT_CODE
         )
-        binding.toolbar.root.inflateMenu(R.menu.toolbar_story_list_menu)
+        binding.toolbar.tbMain.inflateMenu(R.menu.toolbar_story_list_menu)
         viewModel.setStoryListByCategory(categoryId)
     }
 
     private fun setupStorySearch() {
-        val searchItem = binding.toolbar.root.menu.getItem(0)
+        val searchItem = binding.toolbar.tbMain.menu.getItem(0)
         val searchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -149,6 +153,43 @@ class StoryListFragment: Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 viewModel.searchFilterText.value = newText
                 return false
+            }
+
+        })
+    }
+
+    private fun setupSortToggle() {
+        val toggleItem = binding.toolbar.tbMain.menu.getItem(1)
+        toggleItem.setOnMenuItemClickListener {
+            if(binding.toolbar.llHideMenu.visibility == View.GONE){
+                binding.toolbar.llHideMenu.visibility = View.VISIBLE
+            }
+            else{
+                binding.toolbar.llHideMenu.visibility = View.GONE
+            }
+            true
+        }
+    }
+
+    private fun setupSortTabs() {
+        viewModel.readCategory.observe(requireActivity()){
+            adapter.storyList = viewModel.filterStoryList()
+        }
+        binding.toolbar.tlReadCategories.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.position){
+                    0 -> viewModel.readCategory.value = StoryListViewModel.ReadCategory.ALL_STORIES
+                    1 -> viewModel.readCategory.value = StoryListViewModel.ReadCategory.READ_STORIES
+                    2 -> viewModel.readCategory.value = StoryListViewModel.ReadCategory.NOT_READ_STORIES
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
             }
 
         })
